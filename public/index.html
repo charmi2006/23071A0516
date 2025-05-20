@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Node.js Core Modules Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2em;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    button {
+      margin-right: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .info {
+      margin-top: 20px;
+      padding: 1em;
+      background: #f4f4f4;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Node.js Core Modules Demo</h1>
+  <button onclick="getOSInfo()">Get OS Info</button>
+  <button onclick="getPathInfo()">Get Path Info</button>
+
+  <div class="info" id="output">Click a button to fetch data.</div>
+
+  <script>
+    function getOSInfo() {
+      fetch('/api/osinfo')
+        .then(res => res.json())
+        .then(data => {
+          const out = `
+            <h3>OS Information:</h3>
+            <p><strong>Platform:</strong> ${data.platform}</p>
+            <p><strong>CPU Architecture:</strong> ${data.cpuArch}</p>
+            <p><strong>Number of CPUs:</strong> ${data.cpus}</p>
+            <p><strong>Total Memory:</strong> ${data.totalMemMB} MB</p>
+            <p><strong>Free Memory:</strong> ${data.freeMemMB} MB</p>
+            <p><strong>Uptime:</strong> ${data.uptime} seconds</p>
+          `;
+          document.getElementById('output').innerHTML = out;
+        });
+    }
+
+    function getPathInfo() {
+      fetch('/path-demo')
+        .then(res => res.json())
+        .then(data => {
+          const out = `
+            <h3>Path Details:</h3>
+            <p><strong>Dirname:</strong> ${data.dirname}</p>
+            <p><strong>Basename:</strong> ${data.basename}</p>
+            <p><strong>Extension:</strong> ${data.extname}</p>
+            <p><strong>Parsed Path:</strong> ${JSON.stringify(data.parsed)}</p>
+          `;
+          document.getElementById('output').innerHTML = out;
+        });
+    }
+  </script>
+</body>
+</html>
